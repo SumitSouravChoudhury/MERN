@@ -35,7 +35,7 @@ const register = async (req, res) => {
       userId: userCreated._id.toString(),
     });
   } catch (error) {
-    console.log(error);
+      next(error);
   }
 };
 
@@ -65,4 +65,12 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { home, register, login };
+const user = async (req, res) => {
+  try {
+    res.status(200).json({ msg: "Hi" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { home, register, login, user };

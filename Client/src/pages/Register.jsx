@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import { useAuth } from "../store/auth";
+import {toast} from "react-toastify";
 
 function Register() {
   const [user, setUser] = useState({
@@ -36,9 +37,11 @@ function Register() {
         body: JSON.stringify(user),
       });
 
+      const res_data = await response.json();
+      console.log("res from server", res_data.message);
+
       if (response.ok) {
-        alert("Registration Successful");
-        const res_data = await response.json();
+        toast.success("Registration Successful");
         storetokenInLS(res_data.token);
         setUser({
           username: "",
@@ -49,7 +52,7 @@ function Register() {
         navigate("/login");
       }
       else {
-        alert("Registration Unsuccessful");
+        toast.error(res_data.extraDetail ? res_data.extraDetail : res_data.message);
       }
     } catch (error) {
       console.log("Register", error);

@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoute = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
 const connectDB = require("./utils/db");
+const errorMiddleware = require("./middlewares/error-middleware");
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use("/api/form", contactRoute);
 // app.get("/register", (req, res) => {
 //     res.status(200).send("Register");
 // })
+
+app.use(errorMiddleware);
 
 connectDB().then(() => {
   app.listen(5000, () => {
